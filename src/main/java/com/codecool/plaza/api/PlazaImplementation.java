@@ -35,14 +35,24 @@ public class PlazaImplementation implements Plaza {
 
     @Override
     public void removeShop(Shop shop) throws NoSuchShopException, PlazaIsClosedException {
-        if(shops.contains(shop)){
-            shops.remove(shop);
-        }else throw new NoSuchShopException("Shop not exist");
+        if(openingHours){
+            if(shops.contains(shop)){
+                shops.remove(shop);
+            }else throw new NoSuchShopException("Shop not exist");
+        }else throw new PlazaIsClosedException("Sry its closed");
     }
 
     @Override
     public Shop findShopByName(String shop) throws NoSuchShopException, PlazaIsClosedException {
-        return null;
+        if(openingHours) {
+            Shop result = null;
+            for (Shop shop1 : shops) {
+                if (shop1.getName().equals(shop)) {
+                    result = shop1;
+                } else throw new NoSuchShopException("Shop you request does not exist");
+            }
+            return result;
+        }else throw new PlazaIsClosedException("Sry its closed");
     }
 
     @Override

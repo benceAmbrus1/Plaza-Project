@@ -14,6 +14,7 @@ public class ShopImplementation implements Shop {
     private String owner;
     private boolean shopOpeningHours;
     private Map<Long, ShopImplEntry> products;
+    private List<Product> productList;
 
     public ShopImplementation(String name, String owner){
         this.name = name;
@@ -46,8 +47,23 @@ public class ShopImplementation implements Shop {
     }
 
     @Override
+    public List<Product> getProducts() {
+        productList = null;
+        List<ShopImplEntry> sie = (List<ShopImplEntry>) products.values();
+        for(ShopImplEntry product:sie){
+            productList.add(product.getProduct());
+        }
+        return productList;
+    }
+
+    @Override
     public Product findByName(String name) throws NoSuchProductException, ShopIsClosedException {
         return null;
+    }
+
+    @Override
+    public float getPrice(long barcode) {
+        return 0;
     }
 
     @Override

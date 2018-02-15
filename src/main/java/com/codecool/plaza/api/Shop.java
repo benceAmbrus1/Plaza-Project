@@ -14,7 +14,9 @@ public interface Shop {
     boolean isOpen();
     void open();
     void close();
+    List<Product> getProducts() throws ShopIsClosedException;
     Product findByName(String name) throws NoSuchProductException, ShopIsClosedException;
+    float getPrice(long barcode) throws NoSuchProductException, ShopIsClosedException;
     boolean hasProduct(long barcode) throws ShopIsClosedException;
     void addNewProduct(Product product, int quantity, float price) throws ProductAlreadyExistsException, ShopIsClosedException;
     void addProduct(long barcode, int quantity) throws NoSuchProductException, ShopIsClosedException;
