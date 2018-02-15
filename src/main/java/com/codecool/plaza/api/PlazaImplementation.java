@@ -27,9 +27,12 @@ public class PlazaImplementation implements Plaza {
     @Override
     public void addShop(Shop shop) throws ShopAlreadyExistException, PlazaIsClosedException {
         if(openingHours) {
-            if (!(shops.contains(shop))) {
-                shops.add(shop);
-            } else throw new ShopAlreadyExistException("Shop exist, sry");
+            for(Shop sp:shops){
+                if(sp.getName().equals(shop.getName())){
+                    throw new ShopAlreadyExistException("Shop already exist, sry");
+                }
+            }
+            shops.add(shop);
         }else throw new PlazaIsClosedException("Sry its closed.");
     }
 
@@ -49,7 +52,10 @@ public class PlazaImplementation implements Plaza {
             for (Shop shop1 : shops) {
                 if (shop1.getName().equals(shop)) {
                     result = shop1;
-                } else throw new NoSuchShopException("Shop you request does not exist");
+                }
+            }
+            if (result == null){
+                throw new NoSuchShopException("Shop you request does not exist");
             }
             return result;
         }else throw new PlazaIsClosedException("Sry its closed");

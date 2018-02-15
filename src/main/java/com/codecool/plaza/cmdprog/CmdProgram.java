@@ -35,6 +35,7 @@ public class CmdProgram {
         "To add existing products to the shop",
         "To buy a product by barcode",
         "Check price by barcode",
+        "Help",
         "Go back to plaza"};
     private boolean plazaMenuRun = true;
     private boolean mainMenuRun = true;
@@ -230,17 +231,20 @@ public class CmdProgram {
 
                 break;
             case "7":
-                if (shop.isOpen()) {
-                    System.out.println("It's Open!!");
-                } else {
-                    System.out.println("Sry it's Closed");
-                }
+
                 break;
             case "8":
-                listMenu(shopOptions, "Plaza");
+
                 break;
             case "9":
+
+                break;
+            case "10":
+                listMenu(plazaOptions, "Plaza");
+                break;
+            case "11":
                 shopMenuRun = false;
+                listMenu(plazaOptions, "Plaza");
                 break;
             case "wrong":
                 System.out.println("That not a valid option, please add a new one");
