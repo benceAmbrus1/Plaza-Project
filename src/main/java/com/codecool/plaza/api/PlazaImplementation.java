@@ -4,25 +4,33 @@ import com.codecool.plaza.Exceptions.NoSuchShopException;
 import com.codecool.plaza.Exceptions.PlazaIsClosedException;
 import com.codecool.plaza.Exceptions.ShopAlreadyExistException;
 
+import java.util.ArrayList;
 import java.util.List;
 
 public class PlazaImplementation implements Plaza {
 
+    private String name;
     private boolean openingHours;
-    private List<Shop> shops;
+    private List<Shop> shops = new ArrayList<>();
 
-    public PlazaImplementation(){}
+    public PlazaImplementation(String name){
+        this.name = name;
+    }
 
     @Override
     public List<Shop> getShop() throws PlazaIsClosedException {
-        return shops;
+        if(openingHours){
+            return shops;
+        } else throw new PlazaIsClosedException("Sry its closed.");
     }
 
     @Override
     public void addShop(Shop shop) throws ShopAlreadyExistException, PlazaIsClosedException {
-        if(!(shops.contains(shop))) {
-            shops.add(shop);
-        } else throw new ShopAlreadyExistException("Shop exist, sry");
+        if(openingHours) {
+            if (!(shops.contains(shop))) {
+                shops.add(shop);
+            } else throw new ShopAlreadyExistException("Shop exist, sry");
+        }else throw new PlazaIsClosedException("Sry its closed.");
     }
 
     @Override

@@ -77,7 +77,7 @@ public class ShopImplementation implements Shop {
         return null;
     }
 
-    class ShopImplEntry{
+    private class ShopImplEntry{
 
         private Product product;
         private int quantity;
