@@ -1,13 +1,11 @@
 package com.codecool.plaza.cmdprog;
 
-import com.codecool.plaza.Exceptions.NoSuchShopException;
-import com.codecool.plaza.Exceptions.PlazaIsClosedException;
-import com.codecool.plaza.Exceptions.ShopAlreadyExistException;
-import com.codecool.plaza.Exceptions.ShopIsClosedException;
+import com.codecool.plaza.Exceptions.*;
 import com.codecool.plaza.api.*;
 
 import java.util.InputMismatchException;
 import java.util.List;
+import java.util.Random;
 import java.util.Scanner;
 
 public class CmdProgram {
@@ -37,6 +35,7 @@ public class CmdProgram {
         "Check price by barcode",
         "Help",
         "Go back to plaza"};
+    private String[] prodTypes = {"FoodProduct", "ClothProduct"};
     private boolean plazaMenuRun = true;
     private boolean mainMenuRun = true;
     private boolean shopMenuRun = true;
@@ -122,9 +121,11 @@ public class CmdProgram {
                 break;
             case "5":
                 plaza.open();
+                System.out.println("Now it's Open!");
                 break;
             case "6":
                 plaza.close();
+                System.out.println("Now it's Closed :(");
                 break;
             case "7":
                 if(plaza.isOpen()){
@@ -216,19 +217,21 @@ public class CmdProgram {
                 handleShopProducts();
                 break;
             case "2":
-
+                handleProdFinder();
                 break;
             case "3":
-
+                System.out.println("Owner of the shop is: " + shop.getOwner());
                 break;
             case "4":
                 shop.open();
+                System.out.println("Now it's Open!!");
                 break;
             case "5":
                 shop.close();
+                System.out.println("Now it's Closed :(");
                 break;
             case "6":
-
+                handleAddProd();
                 break;
             case "7":
 
@@ -255,11 +258,70 @@ public class CmdProgram {
     }
 
     public void handleShopProducts(){
-        try{
-            for(Product prod:shop.getProducts()){
-                System.out.println(prod);
+        System.out.println("There is your Shop product('s)");
+
+        try {
+            if(shop.getProducts().size() > 0){
+                for (Product prod : shop.getProducts()) {
+                    System.out.println(prod);
+                }
+            }else{
+                System.out.println("Sry there's no products yet, add shops with 6. option in Shop");
             }
-        }catch (ShopIsClosedException e){
+        } catch (ShopIsClosedException e) {
+            System.out.println(e);
+        }
+    }
+
+    public void handleProdFinder(){
+        try{
+            System.out.println("What is the searched item name?");
+            String itemName = getInputFromUser();
+            Product prod = shop.findByName(itemName);
+            System.out.println(prod.toString());
+        }catch (NoSuchProductException|ShopIsClosedException e){
+            System.out.println(e);
+        }
+    }
+
+    public void handleAddProd(){
+        try{
+            System.out.println("What kind of production you wish to add?");
+            int temp = 1;
+            for(String t:prodTypes){
+                System.out.println(temp + " " + t);
+                temp++;
+            }
+            String chosenType = getInputFromUser();
+            switch(chosenType){
+                case "1":
+
+                    break;
+                case "2":
+                    Random rnd = new Random();
+                    int n = rnd.nextInt((9999)+1000);
+                    System.out.println("What is the product name?");
+                    String pname = getInputFromUser();
+                    System.out.println("Who is the manufacturer");
+                    String mname = getInputFromUser();
+                    System.out.println("What type of production is it? ");
+                    String type = getInputFromUser();
+                    System.out.println("What kin of material this product made of?");
+                    String material = getInputFromUser();
+                    System.out.println("How much product you want to place?");
+                    int quantity = Integer.parseInt(getInputFromUser());
+                    System.out.println("What's the price of this product?");
+                    float price = Float.parseFloat(getInputFromUser());
+                    shop.addNewProduct((long)n, new ClothingProduct(pname, (long)n, mname, type, material ),quantity, price);
+                    break;
+                case "wrong":
+                    System.out.println("That not a valid option, please add a new one");
+                    break;
+                default:
+                    System.out.println("That not a valid option, please add a new one");
+
+            }
+        }catch(ProductAlreadyExistsException|ShopIsClosedException e){
             System.out.println(e);
         }
     }

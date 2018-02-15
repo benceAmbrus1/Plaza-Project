@@ -1,10 +1,8 @@
 package com.codecool.plaza.api;
 
-import com.codecool.plaza.Exceptions.NoSuchProductException;
-import com.codecool.plaza.Exceptions.OutOfStockException;
-import com.codecool.plaza.Exceptions.ProductAlreadyExistsException;
-import com.codecool.plaza.Exceptions.ShopIsClosedException;
+import com.codecool.plaza.Exceptions.*;
 
+import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
 
@@ -14,7 +12,7 @@ public class ShopImplementation implements Shop {
     private String owner;
     private boolean shopOpeningHours;
     private Map<Long, ShopImplEntry> products;
-    private List<Product> productList;
+    private List<Product> productList = new ArrayList<>();
 
     public ShopImplementation(String name, String owner){
         this.name = name;
@@ -47,18 +45,31 @@ public class ShopImplementation implements Shop {
     }
 
     @Override
-    public List<Product> getProducts() {
-        productList = null;
-        List<ShopImplEntry> sie = (List<ShopImplEntry>) products.values();
-        for(ShopImplEntry product:sie){
-            productList.add(product.getProduct());
-        }
+    public List<Product> getProducts() throws ShopIsClosedException {
+        if(shopOpeningHours) {
+            List<ShopImplEntry> temp = new ArrayList<>();
+            temp.addAll(products.values());
+            for (ShopImplEntry product : temp) {
+                productList.add(product.getProduct());
+            }
         return productList;
+        }else throw new ShopIsClosedException("sry its closed");
     }
+
 
     @Override
     public Product findByName(String name) throws NoSuchProductException, ShopIsClosedException {
-        return null;
+        if(shopOpeningHours){
+            Product temp = null;
+            for(Product prod:getProducts()){
+                if(prod.getName().equals(name)){
+                    temp = prod;
+                }
+            }if(temp == null){
+                throw new NoSuchProductException("Sry, I not find this production");
+            }
+            return temp;
+        }else throw new ShopIsClosedException("Sry its closed.");
     }
 
     @Override
@@ -68,14 +79,23 @@ public class ShopImplementation implements Shop {
 
     @Override
     public boolean hasProduct(long barcode) throws ShopIsClosedException {
-        if(products.containsKey(barcode)){
-            return true;
-        }else return false;
+        if(shopOpeningHours) {
+            if (products.containsKey(barcode)) {
+                return true;
+            } else return false;
+        }else throw new ShopIsClosedException("Sry, its closed.");
     }
 
     @Override
-    public void addNewProduct(Product product, int quantity, float price) throws ProductAlreadyExistsException, ShopIsClosedException {
-
+    public void addNewProduct(long barcode, Product product, int quantity, float price) throws ProductAlreadyExistsException, ShopIsClosedException {
+        if(shopOpeningHours){
+            for(Product prod:getProducts()){
+                if(prod.getName().equals(product.getName())){
+                    throw new ProductAlreadyExistsException("This product already added");
+                }
+            }
+            products.put(barcode, new ShopImplEntry(product, quantity, price));
+        }else throw new ShopIsClosedException("Sry, it's closed");
     }
 
     @Override

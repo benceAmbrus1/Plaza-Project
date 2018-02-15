@@ -21,6 +21,10 @@ public class ClothingProduct extends Product {
 
     @Override
     public String toString() {
-        return super.toString();
+        return "\tProduct: " + getName() +
+            "\n Manufacturer: " + getManufacturer() +
+            "\n Type: " + getType() +
+            "\n Material: " + getMaterial() +
+            "\n Product Code: " + getBarcode();
     }
 }
