@@ -14,6 +14,7 @@ public class ShopImplementation implements Shop {
     private boolean shopOpeningHours;
     private Map<Long, ShopImplEntry> products = new HashMap<>();
     private List<Product> productList = new ArrayList<>();
+    private Product result;
 
     public ShopImplementation(String name, String owner){
         this.name = name;
@@ -80,9 +81,11 @@ public class ShopImplementation implements Shop {
     @Override
     public boolean hasProduct(long barcode) throws ShopIsClosedException {
         if(shopOpeningHours) {
-            if (products.containsKey(barcode)) {
+            if (products.get(barcode).getQuantity() > 0) {
                 return true;
-            } else return false;
+            } else {
+             return false;
+            }
         }else throw new ShopIsClosedException("Sry, its closed.");
     }
 
@@ -103,7 +106,7 @@ public class ShopImplementation implements Shop {
         if(shopOpeningHours){
             for(Long bc:products.keySet()){
                 if(bc == barcode){
-                    products.get(bc).setQuantity(quantity);
+                    products.get(bc).increaseQuantity(quantity);
                 }else{
                     throw new NoSuchProductException("No production with this barcode.");
                 }
@@ -115,7 +118,22 @@ public class ShopImplementation implements Shop {
 
     @Override
     public Product buyProduct(long barcode) throws NoSuchProductException, OutOfStockException, ShopIsClosedException {
-        return null;
+        if(shopOpeningHours){
+            for(Product prod:getProducts()){
+                if(prod.getBarcode() == barcode ){
+                    if(hasProduct(barcode)){
+                        result = prod;
+                        products.get(barcode).decreaseQuantity(1);
+                        throw new OutOfStockException("Sry we don't have this product right now");
+                    }
+                }else{
+                    throw new NoSuchProductException("No such production bro");
+                }
+            }
+        }else{
+            throw new ShopIsClosedException("Sry the shop is closed");
+        }
+        return result;
     }
 
     @Override
@@ -148,7 +166,7 @@ public class ShopImplementation implements Shop {
         }
 
         public void setQuantity(int quantity){
-            this.quantity += quantity;
+            this.quantity = quantity;
         }
 
         public void increaseQuantity(int amount){

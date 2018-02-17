@@ -39,6 +39,10 @@ public class CmdProgram {
         scan = new Scanner(System.in);
     }
 
+    public List<Product> getCart() {
+        return cart;
+    }
+
     public void run(){
         System.out.println("Welcome in the Plaza creator.");
         listMenu(mainOptions, "Main");
@@ -237,7 +241,7 @@ public class CmdProgram {
                 handleAddExistentProd();
                 break;
             case "8":
-
+                buyProductHandler();
                 break;
             case "9":
 
@@ -344,6 +348,16 @@ public class CmdProgram {
                 }
             }
         }catch(ShopIsClosedException|NoSuchProductException e){
+            System.out.println(e);
+        }
+    }
+
+    public void buyProductHandler(){
+        try{
+            System.out.println("Enter the product barcode you wish to buy");
+            Long barcodInput = Long.parseLong(getInputFromUser());
+            cart.add(shop.buyProduct(barcodInput));
+        }catch(OutOfStockException|ShopIsClosedException|NoSuchProductException e){
             System.out.println(e);
         }
     }
