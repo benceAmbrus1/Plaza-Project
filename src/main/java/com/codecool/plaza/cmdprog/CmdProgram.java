@@ -1,9 +1,8 @@
 package com.codecool.plaza.cmdprog;
 
-import com.codecool.plaza.Exceptions.*;
+import com.codecool.plaza.exceptions.*;
 import com.codecool.plaza.api.*;
 
-import java.util.InputMismatchException;
 import java.util.List;
 import java.util.Random;
 import java.util.Scanner;
@@ -171,8 +170,7 @@ public class CmdProgram {
     public void shopListHandler(){
         try{
             System.out.println("There is your Plazas shop('s):");
-            int size = plaza.getShop().size();
-            if(size > 0){
+            if(plaza.getShop().size()> 0){
                 for(Shop shop:plaza.getShop()){
                     System.out.println(shop.getName());
                 }
@@ -261,16 +259,18 @@ public class CmdProgram {
         System.out.println("There is your Shop product('s)");
 
         try {
-            if(shop.getProducts().size() > 0){
+            if(shop.getProducts().size() > 0) {
                 for (Product prod : shop.getProducts()) {
                     System.out.println(prod);
                 }
-            }else{
-                System.out.println("Sry there's no products yet, add shops with 6. option in Shop");
+            } else {
+                System.out.println("Sry there's no item yet.");
             }
         } catch (ShopIsClosedException e) {
             System.out.println(e);
-        }
+        } /*catch (NullPointerException ex) {
+            System.out.println("Sry there's no item yet.");
+        }*/
     }
 
     public void handleProdFinder(){

@@ -1,6 +1,6 @@
 package com.codecool.plaza.api;
 
-import com.codecool.plaza.Exceptions.*;
+import com.codecool.plaza.exceptions.*;
 
 import java.util.List;
 

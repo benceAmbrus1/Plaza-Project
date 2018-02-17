@@ -1,4 +1,4 @@
-package com.codecool.plaza.Exceptions;
+package com.codecool.plaza.exceptions;
 
 public class NoSuchShopException extends ShopException{
     public NoSuchShopException(String message) {

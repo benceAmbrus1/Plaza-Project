@@ -1,8 +1,8 @@
 package com.codecool.plaza.api;
 
-import com.codecool.plaza.Exceptions.NoSuchShopException;
-import com.codecool.plaza.Exceptions.PlazaIsClosedException;
-import com.codecool.plaza.Exceptions.ShopAlreadyExistException;
+import com.codecool.plaza.exceptions.NoSuchShopException;
+import com.codecool.plaza.exceptions.PlazaIsClosedException;
+import com.codecool.plaza.exceptions.ShopAlreadyExistException;
 
 import java.util.List;
 

@@ -1,8 +1,9 @@
 package com.codecool.plaza.api;
 
-import com.codecool.plaza.Exceptions.*;
+import com.codecool.plaza.exceptions.*;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
@@ -11,7 +12,7 @@ public class ShopImplementation implements Shop {
     private String name;
     private String owner;
     private boolean shopOpeningHours;
-    private Map<Long, ShopImplEntry> products;
+    private Map<Long, ShopImplEntry> products = new HashMap<>();
     private List<Product> productList = new ArrayList<>();
 
     public ShopImplementation(String name, String owner){
@@ -47,9 +48,8 @@ public class ShopImplementation implements Shop {
     @Override
     public List<Product> getProducts() throws ShopIsClosedException {
         if(shopOpeningHours) {
-            List<ShopImplEntry> temp = new ArrayList<>();
-            temp.addAll(products.values());
-            for (ShopImplEntry product : temp) {
+            productList = new ArrayList<>();
+            for (ShopImplEntry product : products.values()) {
                 productList.add(product.getProduct());
             }
         return productList;
