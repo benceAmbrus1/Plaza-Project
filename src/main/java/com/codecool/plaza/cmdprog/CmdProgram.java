@@ -234,7 +234,7 @@ public class CmdProgram {
                 handleAddProd();
                 break;
             case "7":
-
+                handleAddExistentProd();
                 break;
             case "8":
 
@@ -293,32 +293,36 @@ public class CmdProgram {
                 temp++;
             }
             String chosenType = getInputFromUser();
+            Random rnd = new Random();
+            int n = rnd.nextInt((9999)+1000);
+            System.out.println("What is the product name?");
+            String pname = getInputFromUser();
+            System.out.println("Who is the manufacturer");
+            String mname = getInputFromUser();
+            System.out.println("How much product you want to place?");
+            int quantity = Integer.parseInt(getInputFromUser());
+            System.out.println("What's the price of this product?");
+            float price = Float.parseFloat(getInputFromUser());
             switch(chosenType){
                 case "1":
-
+                    System.out.println("How much calories are in that product");
+                    int calories = Integer.parseInt(getInputFromUser());
+                    System.out.println("What kind of food is it?");
+                    String typeFood = getInputFromUser();
+                    shop.addNewProduct((long)n, new FoodProduct(pname, (long)n, mname, calories, typeFood ),quantity, price);
                     break;
                 case "2":
-                    Random rnd = new Random();
-                    int n = rnd.nextInt((9999)+1000);
-                    System.out.println("What is the product name?");
-                    String pname = getInputFromUser();
-                    System.out.println("Who is the manufacturer");
-                    String mname = getInputFromUser();
                     System.out.println("What type of production is it? ");
                     String type = getInputFromUser();
                     System.out.println("What kin of material this product made of?");
                     String material = getInputFromUser();
-                    System.out.println("How much product you want to place?");
-                    int quantity = Integer.parseInt(getInputFromUser());
-                    System.out.println("What's the price of this product?");
-                    float price = Float.parseFloat(getInputFromUser());
                     shop.addNewProduct((long)n, new ClothingProduct(pname, (long)n, mname, type, material ),quantity, price);
                     break;
                 case "wrong":
                     System.out.println("That not a valid option, please add a new one");
                     break;
                 default:
-                    System.out.println("That not a valid option, please add a new one");
+                    System.out.println("That not a valid option, please add a new one(default)");
 
             }
         }catch(ProductAlreadyExistsException|ShopIsClosedException e){

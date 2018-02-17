@@ -1,20 +1,18 @@
 package com.codecool.plaza.api;
 
-import java.util.Date;
-
 public class FoodProduct extends Product {
 
     private int calories;
-    private Date bestBefore;
+    private String type;
 
-    public FoodProduct(String name, long barcode, String manufacturer, int calories, Date bestBefore) {
+    public FoodProduct(String name, long barcode, String manufacturer, int calories, String type) {
         super(name, barcode, manufacturer);
         this.calories = calories;
-        this.bestBefore = bestBefore;
+        this.type = type;
     }
 
-    public boolean isStillConsumable(){
-        return true;
+    public String getType(){
+        return type;
     }
 
     public int getCalories() {

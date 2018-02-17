@@ -100,7 +100,17 @@ public class ShopImplementation implements Shop {
 
     @Override
     public void addProduct(long barcode, int quantity) throws NoSuchProductException, ShopIsClosedException {
-
+        if(shopOpeningHours){
+            for(Long bc:products.keySet()){
+                if(bc == barcode){
+                    products.get(bc).setQuantity(quantity);
+                }else{
+                    throw new NoSuchProductException("No production with this barcode.");
+                }
+            }
+        }else {
+            throw new ShopIsClosedException("Sry shop is closed");
+        }
     }
 
     @Override
@@ -138,7 +148,7 @@ public class ShopImplementation implements Shop {
         }
 
         public void setQuantity(int quantity){
-            this.quantity = quantity;
+            this.quantity += quantity;
         }
 
         public void increaseQuantity(int amount){
