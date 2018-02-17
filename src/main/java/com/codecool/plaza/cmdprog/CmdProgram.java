@@ -13,16 +13,14 @@ public class CmdProgram {
     private final Scanner scan;
     private Plaza plaza;
     private Shop shop;
-    private String[] mainOptions = {"Creat new Plaza", "Exit"};
+    private String[] mainOptions = {"Creat new Plaza"};
     private String[] plazaOptions = {"To list all shops",
         "To add a new shop",
         "To remove an existing shop",
         "Enter a shop by name",
         "To open the plaza",
         "To close the plaza",
-        "To check if the plaza is open or not",
-        "Help",
-        "Leave plaza"};
+        "To check if the plaza is open or not"};
     private String[] shopOptions = {"To list available products",
         "To find products by name",
         "To display the shop's owner",
@@ -31,9 +29,7 @@ public class CmdProgram {
         "To add new product to the shop",
         "To add existing products to the shop",
         "To buy a product by barcode",
-        "Check price by barcode",
-        "Help",
-        "Go back to plaza"};
+        "Check price by barcode"};
     private String[] prodTypes = {"FoodProduct", "ClothProduct"};
     private boolean plazaMenuRun = true;
     private boolean mainMenuRun = true;
@@ -45,10 +41,10 @@ public class CmdProgram {
 
     public void run(){
         System.out.println("Welcome in the Plaza creator.");
+        listMenu(mainOptions, "Main");
         while(mainMenuRun) {
             try {
-                listMenu(mainOptions, "Main");
-                handleMainMenu(getInputFromUser());
+                handleMainMenu(getInputFromUser().toUpperCase());
             } catch (UnsupportedOperationException e){
                 System.err.println(e);
             }
@@ -60,14 +56,17 @@ public class CmdProgram {
             case "1":
                 plazaHandler();
                 break;
-            case "2":
+            case "H":
+                listMenu(mainOptions, "Main");
+                break;
+            case "E":
                 mainMenuRun = false;
                 break;
             case "wrong":
                 System.out.println("That not a valid option, please add a new one");
                 break;
             default:
-                System.out.println("That not a valid option, please add a new one");
+                System.out.println("That not a valid option, please add a new one(default)");
         }
     }
 
@@ -79,7 +78,7 @@ public class CmdProgram {
         listMenu(plazaOptions , "Plaza");
         while(plazaMenuRun){
             try{
-                handlePlazaMenu(getInputFromUser());
+                handlePlazaMenu(getInputFromUser().toUpperCase());
             }catch(UnsupportedOperationException e){
                 System.err.println(e);
             }
@@ -102,6 +101,8 @@ public class CmdProgram {
             System.out.println(n + ": " + option);
             n++;
         }
+        System.out.println("H: for list menu");
+        System.out.println("E: for exit from this menu");
     }
 
     public void handlePlazaMenu(String chosenNumber){
@@ -133,17 +134,18 @@ public class CmdProgram {
                     System.out.println("Sry it's Closed");
                 }
                 break;
-            case "8":
+            case "H":
                 listMenu(plazaOptions, "Plaza");
                 break;
-            case "9":
+            case "E":
                 plazaMenuRun = false;
+                listMenu(mainOptions, "Main");
                 break;
             case "wrong":
                 System.out.println("That not a valid option, please add a new one");
                 break;
             default:
-                System.out.println("That not a valid option, please add a new one");
+                System.out.println("That not a valid option, please add a new one(default)");
         }
     }
 
@@ -156,7 +158,7 @@ public class CmdProgram {
             listMenu(shopOptions , shop.getName());
             while(shopMenuRun){
                 try{
-                    handleShopMenu(getInputFromUser());
+                    handleShopMenu(getInputFromUser().toUpperCase());
                 }catch(UnsupportedOperationException e){
                     System.err.println(e);
                 }
@@ -240,10 +242,10 @@ public class CmdProgram {
             case "9":
 
                 break;
-            case "10":
+            case "H":
                 listMenu(plazaOptions, "Plaza");
                 break;
-            case "11":
+            case "E":
                 shopMenuRun = false;
                 listMenu(plazaOptions, "Plaza");
                 break;
@@ -251,7 +253,7 @@ public class CmdProgram {
                 System.out.println("That not a valid option, please add a new one");
                 break;
             default:
-                System.out.println("That not a valid option, please add a new one");
+                System.out.println("That not a valid option, please add a new one(default)");
         }
     }
 
@@ -268,9 +270,7 @@ public class CmdProgram {
             }
         } catch (ShopIsClosedException e) {
             System.out.println(e);
-        } /*catch (NullPointerException ex) {
-            System.out.println("Sry there's no item yet.");
-        }*/
+        }
     }
 
     public void handleProdFinder(){
