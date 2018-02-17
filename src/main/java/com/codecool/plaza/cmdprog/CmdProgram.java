@@ -329,5 +329,23 @@ public class CmdProgram {
             System.out.println(e);
         }
     }
+    public void handleAddExistentProd(){
+        try {
+            System.out.println("For which product you wish to add? Please enter product barcode");
+            for(Product prod:shop.getProducts()) {
+                System.out.println(prod.getBarcode() + ": " + prod.getName());
+            }
+            Long prodChose = Long.parseLong(getInputFromUser());
+            System.out.println("And how much you wish to add?");
+            int quantity = Integer.parseInt(getInputFromUser());
+            for(Product prod:shop.getProducts()){
+                if(prod.getBarcode() == prodChose){
+                    shop.addProduct(prodChose, quantity);
+                }
+            }
+        }catch(ShopIsClosedException|NoSuchProductException e){
+            System.out.println(e);
+        }
+    }
 }
 
